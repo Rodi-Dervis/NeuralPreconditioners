@@ -60,6 +60,7 @@ def split_L_components(out, eps=config.eps):
 
     return L_diag, L_west, L_south
 
+# Function to build L from network outputs (so we can construct M = LL^T)
 def build_L(A, out, alpha=config.alpha, eps=config.eps):
     _, N, _ = out.shape
     n = N * N
@@ -67,8 +68,11 @@ def build_L(A, out, alpha=config.alpha, eps=config.eps):
 
     L = torch.zeros((n, n), device=device)
 
+    # Initialise based on Jacobi preconditioner
     D = torch.diag(A).reshape(N, N)
+    # eps here stops diag entries from being 0 and code blowing up
     L_diag = torch.sqrt(D) * torch.exp(out[0]) + config.eps
+    # Ensure coords aren't too large
     L_west  = alpha * torch.tanh(out[1])
     L_south = alpha * torch.tanh(out[2])
 
@@ -105,8 +109,7 @@ def apply_M_inv(L, b):
 
     return x.squeeze(1)
 
-
-
+# Probe-based loss function
 def loss(A, apply_M_inv, num_probes=config.DEFAULT_NUM_PROBES):
     n = A.shape[0]
     loss = 0.0
@@ -120,7 +123,7 @@ def loss(A, apply_M_inv, num_probes=config.DEFAULT_NUM_PROBES):
 
     return loss / num_probes
 
-
+# Apply inverse of Jacobi preconditioner
 def apply_jacobi_inv(A, b):
     D_inv = 1.0 / torch.diag(A)
     return D_inv * b

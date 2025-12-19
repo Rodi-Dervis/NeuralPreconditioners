@@ -1,0 +1,7 @@
+# Params
+DEFAULT_N = 32
+DEFAULT_SIGMA = 4.0
+DEFAULT_CONTRAST = 1.0
+eps = 1e-3
+alpha = 0.1
+DEFAULT_NUM_PROBES = 8

@@ -56,5 +56,6 @@ This phase will consist of training and validating on a sample of 200 $$32 \time
 This phase will consist of training and validating on a sample of 300 $$64 \times 64$$ matrices. Success will be measured based on how well the network generalises to these higher dimensions.
 #### Phase 3
 **TBD**
+Bu projeye Rodi-Dervis olarak katkıda bulunmaya başladım.
 
 
